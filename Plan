@@ -1,0 +1,107 @@
+
+---
+
+# 📌 High-Level Workflow Plan
+
+### **Phase 0: Environment Setup**
+
+* Install **Java 17+**, **Spring Boot Initializr**, Maven/Gradle.
+* Setup **Docker** for DB (PostgreSQL/MySQL).
+* Create base repo (GitHub, with README + issue tracker).
+* Project structure: `controller`, `service`, `repository`, `model/entity`, `dto`, `config`, `exception`.
+
+---
+
+### **Phase 1: Database & Core Models**
+
+* **Step 1:** Define ERD → convert into **Entity classes** (`User`, `Wallet`, `Transaction`, `Audit`).
+* **Step 2:** Setup DB connection (Docker container with Postgres/MySQL).
+* **Step 3:** Create JPA Repositories for CRUD.
+* **Checkpoint Test:** Insert dummy data via `data.sql` and fetch with a REST GET endpoint → confirm DB is wired correctly.
+
+---
+
+### **Phase 2: Authentication & User Module**
+
+* **Step 1:** Implement `UserService` with registration & login.
+* **Step 2:** Add **Spring Security** with JWT (basic login + role-based endpoints).
+* **Step 3:** Add exception handling (`UserNotFoundException`, `InvalidCredentialsException`).
+* **Checkpoint Test:** Use Postman → register → login → token → access protected endpoint.
+
+---
+
+### **Phase 3: Wallet Module**
+
+* **Step 1:** Create `WalletService` → deposit, withdraw, get balance.
+* **Step 2:** Add DB transaction boundaries (`@Transactional`) to ensure atomicity.
+* **Step 3:** Add optimistic locking to prevent double-spending.
+* **Checkpoint Test:** Deposit, withdraw → verify balance updates correctly in DB.
+
+---
+
+### **Phase 4: Transactions Module**
+
+* **Step 1:** Implement `TransactionService` → log every deposit/withdrawal/transfer.
+* **Step 2:** Implement **transfer money** → ensure both debit & credit happen in one DB transaction.
+* **Step 3:** Add DTOs for clean API responses.
+* **Checkpoint Test:** Transfer money → verify both wallets updated + transaction logged.
+
+---
+
+### **Phase 5: Audit & Admin Module**
+
+* **Step 1:** Add `AuditService` to log all admin actions (freeze account, view reports).
+* **Step 2:** Extend `User` to `Admin` via inheritance (OOP showcase).
+* **Step 3:** Implement role-based access for Admin-only endpoints.
+* **Checkpoint Test:** Admin logs in → freeze account → user cannot transact anymore.
+
+---
+
+### **Phase 6: Exception Handling & Edge Cases**
+
+* **Step 1:** Global exception handler (`@ControllerAdvice`).
+* **Step 2:** Custom error codes/messages for insufficient funds, invalid transfers, frozen wallets.
+* **Checkpoint Test:** Try edge cases (withdraw > balance, transfer to frozen account).
+
+---
+
+### **Phase 7: Testing & Validation**
+
+* **Unit Tests:** JUnit + Mockito for services.
+* **Integration Tests:** REST endpoints with TestContainers (spins up DB in Docker for CI).
+* **Load Test (Optional):** JMeter or k6 → simulate concurrent withdrawals.
+
+---
+
+### **Phase 8: Containerization & Deployment**
+
+* **Step 1:** Add Dockerfile for Spring Boot app.
+* **Step 2:** Docker Compose → one container for app, one for DB.
+* **Step 3:** Run system end-to-end → test APIs locally.
+* **Step 4:** (Optional for CV) → Deploy on free cloud (Render, Railway, or Heroku).
+
+---
+
+### **Phase 9: Documentation (CV Booster)**
+
+* Clean **README**:
+
+  * System overview.
+  * UML diagrams (use-case, ERD, activity).
+  * How to run with Docker.
+  * Sample API requests/responses.
+* Include **Design Decisions**:
+
+  * Why optimistic locking?
+  * Why DTOs?
+  * Where patterns (DAO, Singleton, Service Layer, Observer) were used.
+
+---
+
+# 📌 Quick Notes on Your Concerns
+
+* ⚡ **Storage in system:** Docker will keep DB isolated → no clutter in your machine.
+* ⚡ **Linking modules:** We’ll go **layer by layer** (Entities → Repositories → Services → Controllers).
+* ⚡ **Testing checkpoints:** After each module → small Postman/JUnit test ensures correctness before moving ahead.
+* ⚡ **Not commercial, but CV ready:** We’ll **keep enterprise-grade structure** (patterns, modularity) but **avoid overcomplicating** (e.g., no Kafka or microservices unless you want).
+
