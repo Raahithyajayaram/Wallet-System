@@ -1,0 +1,25 @@
+### Java ###
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.log
+
+### Maven ###
+target/
+dependency-reduced-pom.xml
+.build/
+
+### VSCode ###
+.vscode/
+.settings/
+.project
+.classpath
+
+### OS files ###
+.DS_Store
+Thumbs.db
+
+### Docker ###
+/docker-data
